@@ -6,13 +6,14 @@ Drawing app written with Jetpack Compose Canvas.Draw to canvas using touch down,
 <img src="/./screenshots/intro.gif" align="right" width="32%"/>
 
 ### TODOs:
-- [ ] Option for saving and loading separate drawing
-- [ ] Add actions to record each change to restore Canvas when drawing is opened
-- [ ] Take drawing output as png or jpg
+- [ ] Save and load drawing
+- [ ] Record each action to restore Canvas state when a drawing is opened
+- [ ] Retrieve drawing output as png or jpg
 - [ ] Add circle color picker instead of static color wheel
 - [ ] Add option to open an image and draw on it
-- [ ] Add grids
+- [ ] Add option to display layout grid
 - [ ] Add option to draw text with properties
 - [ ] Add option to draw shapes like circle, rectangle or polygons
 - [ ] Add BitmapShader for different type of pencils
 - [ ] Add gradient options
+- [ ] Add rotation and zoom to drawing
