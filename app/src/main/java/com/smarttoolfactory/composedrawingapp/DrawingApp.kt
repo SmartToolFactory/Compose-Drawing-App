@@ -4,12 +4,8 @@ import android.graphics.Paint
 import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -26,9 +22,10 @@ import com.smarttoolfactory.composedrawingapp.gesture.MotionEvent
 import com.smarttoolfactory.composedrawingapp.gesture.dragMotionEvent
 import com.smarttoolfactory.composedrawingapp.model.PathProperties
 import com.smarttoolfactory.composedrawingapp.ui.menu.DrawingPropertiesMenu
+import com.smarttoolfactory.composedrawingapp.ui.theme.backgroundColor
 
 @Composable
-fun DrawingApp() {
+fun DrawingApp(paddingValues: PaddingValues) {
 
     val context = LocalContext.current
 

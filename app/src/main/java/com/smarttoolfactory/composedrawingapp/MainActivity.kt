@@ -3,14 +3,19 @@ package com.smarttoolfactory.composedrawingapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Expand
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.composedrawingapp.ui.theme.ComposeDrawingAppTheme
+import com.smarttoolfactory.composedrawingapp.ui.theme.backgroundColor
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +27,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Scaffold(
+
+                        topBar = {
+                            TopAppBar(
+                                elevation = 8.dp,
+                                backgroundColor = MaterialTheme.colors.surface,
+                                contentColor = MaterialTheme.colors.onSurface,
+                                title = {
+                                    Text("Drawing App")
+                                },
+
+                                actions = {}
+                            )
+                        }
+                    ) { paddingValues: PaddingValues ->
+                        DrawingApp(paddingValues)
+                    }
                 }
             }
         }
