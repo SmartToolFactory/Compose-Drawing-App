@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
                         topBar = {
                             TopAppBar(
-                                elevation = 8.dp,
+                                elevation = 2.dp,
                                 backgroundColor = MaterialTheme.colors.surface,
                                 contentColor = MaterialTheme.colors.onSurface,
                                 title = {
