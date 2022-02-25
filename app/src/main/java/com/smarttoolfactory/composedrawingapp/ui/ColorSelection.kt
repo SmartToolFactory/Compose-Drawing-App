@@ -1,4 +1,4 @@
-package com.smarttoolfactory.composedrawingapp
+package com.smarttoolfactory.composedrawingapp.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*

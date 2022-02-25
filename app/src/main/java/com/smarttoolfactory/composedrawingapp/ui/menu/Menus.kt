@@ -28,6 +28,8 @@ import androidx.compose.ui.window.Dialog
 import com.smarttoolfactory.composedrawingapp.*
 import com.smarttoolfactory.composedrawingapp.R
 import com.smarttoolfactory.composedrawingapp.model.PathProperties
+import com.smarttoolfactory.composedrawingapp.ui.ColorSlider
+import com.smarttoolfactory.composedrawingapp.ui.ColorWheel
 import com.smarttoolfactory.composedrawingapp.ui.theme.Blue400
 import kotlin.math.roundToInt
 
