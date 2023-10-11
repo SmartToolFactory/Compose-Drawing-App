@@ -23,27 +23,23 @@ import com.smarttoolfactory.composedrawingapp.gesture.dragMotionEvent
 import com.smarttoolfactory.composedrawingapp.model.MyLine
 import com.smarttoolfactory.composedrawingapp.model.PathProperties
 
+/**
+ * Paths that are added, this is required to have paths with different options and paths
+ *  ith erase to keep over each other
+ */
 @Composable
 fun DrawingCanvas(
     columnScope: ColumnScope,
     paths: List<MyLine>,
+    drawMode: DrawMode,
+    motionEvent: MotionEvent,
     updateLine: (MyLine) -> Unit,
+    updateMotionEvent: (MotionEvent) -> Unit = {},
     clearRedo: () -> Unit,
     ifDebug: Boolean = false
 ) {
-    /**
-     * Paths that are added, this is required to have paths with different options and paths
-     *  ith erase to keep over each other
-     */
-//    val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
 
     val textMeasurer = rememberTextMeasurer()
-
-    /**
-     * Canvas touch state. [MotionEvent.Idle] by default, [MotionEvent.Down] at first contact,
-     * [MotionEvent.Move] while dragging and [MotionEvent.Up] when first pointer is up
-     */
-    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
     /**
      * Current position of the pointer that is pressed or being moved
@@ -54,11 +50,6 @@ fun DrawingCanvas(
      * Previous motion event before next touch is saved into this current position.
      */
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
-
-    /**
-     * Draw mode, erase mode or touch mode to
-     */
-    var drawMode by remember { mutableStateOf(DrawMode.Draw) }
 
     /**
      * Path that is being drawn between [MotionEvent.Down] and [MotionEvent.Up]. When
@@ -90,18 +81,19 @@ fun DrawingCanvas(
 //            .background(getRandomColor())
             .dragMotionEvent(
                 onDragStart = { pointerInputChange ->
-                    motionEvent = MotionEvent.Down
+                    updateMotionEvent.invoke(MotionEvent.Down)
                     currentPosition = pointerInputChange.position
                     pointerInputChange.consumeDownChange()
 
                 },
                 onDrag = { pointerInputChange ->
-                    motionEvent = MotionEvent.Move
+                    updateMotionEvent.invoke(MotionEvent.Move)
                     currentPosition = pointerInputChange.position
 
                     if (drawMode == DrawMode.Touch) {
                         val change = pointerInputChange.positionChange()
                         println("DRAG: $change")
+                        // TODO:
                         paths.forEach { entry ->
                             val path: Path = entry.path
                             path.translate(change)
@@ -112,7 +104,7 @@ fun DrawingCanvas(
 
                 },
                 onDragEnd = { pointerInputChange ->
-                    motionEvent = MotionEvent.Up
+                    updateMotionEvent.invoke(MotionEvent.Up)
                     pointerInputChange.consumeDownChange()
                 }
             )
@@ -174,7 +166,7 @@ fun DrawingCanvas(
                     // line from (0,0) if this composable recomposes when draw mode is changed
                     currentPosition = Offset.Unspecified
                     previousPosition = currentPosition
-                    motionEvent = MotionEvent.Idle
+                    updateMotionEvent.invoke(MotionEvent.Idle)
                 }
                 else -> Unit
             }
