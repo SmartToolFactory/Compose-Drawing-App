@@ -31,4 +31,8 @@ class PathProperties(
         this.strokeJoin = properties.strokeJoin
         this.eraseMode = properties.eraseMode
     }
+
+    companion object {
+        val DEFAULT = PathProperties()
+    }
 }
