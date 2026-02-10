@@ -108,11 +108,21 @@ fun DrawingApp(
                     if (drawMode == DrawMode.Touch) {
                         val change = pointerInputChange.positionChange()
                         println("DRAG: $change")
+                        
+                        // Translate all paths
                         paths.forEach { entry ->
                             val path: Path = entry.first
                             path.translate(change)
                         }
                         currentPath.translate(change)
+                        
+                        // Also translate all stroke points to keep them in sync
+                        strokeList.forEachIndexed { index, stroke ->
+                            val translatedPoints = stroke.points.map { point ->
+                                Offset(point.x + change.x, point.y + change.y)
+                            }
+                            strokeList[index] = DrawingStroke(stroke.pathProperties, translatedPoints)
+                        }
                     } else {
                         currentPoints.add(currentPosition)
                     }

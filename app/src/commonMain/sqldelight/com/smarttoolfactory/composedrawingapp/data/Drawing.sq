@@ -26,12 +26,61 @@ CREATE TABLE DrawingPreferenceEntity (
     alpha REAL NOT NULL,
     strokeCap TEXT NOT NULL,
     strokeJoin TEXT NOT NULL,
-    eraseMode INTEGER NOT NULL
+    eraseMode INTEGER NOT NULL,
+    currentDrawingName TEXT
 );
 
 getPreference:
 SELECT * FROM DrawingPreferenceEntity WHERE id = 0;
 
 savePreference:
-INSERT OR REPLACE INTO DrawingPreferenceEntity (id, strokeWidth, color, alpha, strokeCap, strokeJoin, eraseMode)
-VALUES (0, ?, ?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO DrawingPreferenceEntity (id, strokeWidth, color, alpha, strokeCap, strokeJoin, eraseMode, currentDrawingName)
+VALUES (0, ?, ?, ?, ?, ?, ?, ?);
+
+CREATE TABLE SavedDrawingEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    dateCreated INTEGER NOT NULL
+);
+
+CREATE TABLE SavedDrawingStrokeEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    drawingId INTEGER NOT NULL,
+    strokeWidth REAL NOT NULL,
+    color INTEGER NOT NULL,
+    alpha REAL NOT NULL,
+    strokeCap TEXT NOT NULL,
+    strokeJoin TEXT NOT NULL,
+    eraseMode INTEGER NOT NULL,
+    pointsJson TEXT NOT NULL,
+    FOREIGN KEY (drawingId) REFERENCES SavedDrawingEntity(id) ON DELETE CASCADE
+);
+
+getAllSavedDrawings:
+SELECT * FROM SavedDrawingEntity ORDER BY dateCreated DESC;
+
+getSavedDrawing:
+SELECT * FROM SavedDrawingEntity WHERE name = ?;
+
+insertSavedDrawing:
+INSERT INTO SavedDrawingEntity (name, dateCreated)
+VALUES (?, ?);
+
+getLastInsertedDrawingId:
+SELECT last_insert_rowid();
+
+insertSavedDrawingStroke:
+INSERT INTO SavedDrawingStrokeEntity (drawingId, strokeWidth, color, alpha, strokeCap, strokeJoin, eraseMode, pointsJson)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+getSavedDrawingStrokes:
+SELECT * FROM SavedDrawingStrokeEntity WHERE drawingId = ?;
+
+deleteSavedDrawing:
+DELETE FROM SavedDrawingEntity WHERE id = ?;
+
+deleteSavedDrawingStrokes:
+DELETE FROM SavedDrawingStrokeEntity WHERE drawingId = ?;
+
+updateSavedDrawingStrokes:
+DELETE FROM SavedDrawingStrokeEntity WHERE drawingId = ?;
